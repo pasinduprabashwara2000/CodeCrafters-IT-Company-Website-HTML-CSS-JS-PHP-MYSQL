@@ -1,0 +1,5 @@
+Options -Indexes
+<FilesMatch "^_layout\.php$">
+    Require all denied
+</FilesMatch>
+Header set X-Robots-Tag "noindex, nofollow"

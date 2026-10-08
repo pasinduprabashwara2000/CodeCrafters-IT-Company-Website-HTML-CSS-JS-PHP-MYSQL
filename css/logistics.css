@@ -1,0 +1,852 @@
+/* =========================================================
+   LOGISTICS & SUPPLY CHAIN INDUSTRY PAGE
+========================================================= */
+
+:root {
+    --log-ink: #14213a;
+    --log-amber: #d98b1f;
+    --log-amber-dark: #b06f14;
+    --log-steel: #3c6e9c;
+    --log-heading: #111936;
+    --log-text: #5c6685;
+    --log-muted: #77819b;
+    --log-border: #e4e8f1;
+    --log-card-bg: #ffffff;
+    --log-light-bg: #f6f8fc;
+    --log-container: 1180px;
+}
+
+.log-hero,
+.log-section,
+.log-pricing,
+.log-faq,
+.log-dark,
+.log-hero *,
+.log-section *,
+.log-pricing *,
+.log-faq *,
+.log-dark * {
+    box-sizing: border-box;
+}
+
+.log-hero h1,
+.log-hero h2,
+.log-hero p,
+.log-section h2,
+.log-section p,
+.log-pricing h2,
+.log-pricing p,
+.log-faq h2,
+.log-faq p,
+.log-dark h2,
+.log-dark p {
+    margin-top: 0;
+}
+
+.log-hero a,
+.log-section a,
+.log-pricing a,
+.log-faq a,
+.log-dark a {
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.log-hero {
+    position: relative;
+    min-height: 760px;
+    overflow: hidden;
+    padding: 90px 0 80px;
+    background: linear-gradient(135deg, #f7f9fd 0%, #fdf7ec 52%, #f2f7fb 100%);
+}
+
+.log-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+            linear-gradient(rgba(217, 139, 31, 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(217, 139, 31, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(to bottom, #000, transparent 90%);
+}
+
+.log-glow {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+.log-glow-one {
+    top: 30px;
+    right: -110px;
+    width: 420px;
+    height: 420px;
+    background: rgba(60, 110, 156, 0.14);
+}
+
+.log-glow-two {
+    bottom: 10px;
+    left: -140px;
+    width: 320px;
+    height: 320px;
+    background: rgba(217, 139, 31, 0.14);
+}
+
+.log-hero-inner {
+    position: relative;
+    z-index: 1;
+    width: min(var(--log-container), 92%);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 56px;
+    padding-top: 46px;
+}
+
+.log-hero-copy h1 {
+    margin: 20px 0 18px;
+    font-size: clamp(2.2rem, 3.6vw, 3.05rem);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    color: var(--log-heading);
+}
+
+.log-hero-copy h1 span {
+    color: var(--log-amber-dark);
+}
+
+.log-hero-copy p {
+    max-width: 520px;
+    color: var(--log-text);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.log-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.log-outline {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--log-border);
+    color: var(--log-heading);
+    font-weight: 700;
+    background: #fff;
+    transition: 0.25s ease;
+}
+
+.log-outline:hover {
+    border-color: var(--log-amber);
+    color: var(--log-amber-dark);
+}
+
+.log-trust {
+    display: flex;
+    gap: 34px;
+    margin-top: 42px;
+    padding-top: 26px;
+    border-top: 1px solid var(--log-border);
+    flex-wrap: wrap;
+}
+
+.log-trust div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.log-trust strong {
+    font-size: 1.05rem;
+    color: var(--log-heading);
+}
+
+.log-trust span {
+    font-size: 0.85rem;
+    color: var(--log-muted);
+}
+
+/* ---- Fleet mock widget ---- */
+
+.fleet-wrap {
+    position: relative;
+}
+
+.fleet-window {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid var(--log-border);
+    box-shadow: 0 30px 70px rgba(20, 33, 58, 0.14);
+    overflow: hidden;
+}
+
+.fleet-top {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 16px;
+    background: #f5f7fb;
+    border-bottom: 1px solid var(--log-border);
+}
+
+.fleet-top span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #dbe1ee;
+    display: inline-block;
+}
+
+.fleet-url {
+    margin-left: 10px;
+    font-size: 0.78rem;
+    color: var(--log-muted);
+}
+
+.fleet-map {
+    padding: 18px 20px 4px;
+    background: var(--log-light-bg);
+}
+
+.fleet-route {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.fleet-route path {
+    fill: none;
+    stroke: var(--log-steel);
+    stroke-width: 3;
+    stroke-dasharray: 7 6;
+}
+
+.fleet-dot.start {
+    fill: var(--log-steel);
+}
+
+.fleet-dot.end {
+    fill: var(--log-amber);
+}
+
+.fleet-dot.truck {
+    fill: #fff;
+    stroke: var(--log-amber);
+    stroke-width: 3;
+}
+
+.fleet-body {
+    padding: 6px 20px 12px;
+}
+
+.fleet-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.fleet-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--log-light-bg);
+    font-size: 0.85rem;
+}
+
+.fleet-row span:nth-child(2) {
+    color: var(--log-text);
+}
+
+.fleet-row b {
+    color: var(--log-heading);
+}
+
+.fleet-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.fleet-tag.transit {
+    background: #e7f0f8;
+    color: var(--log-steel);
+}
+
+.fleet-tag.loading {
+    background: #fdf0dd;
+    color: var(--log-amber-dark);
+}
+
+.fleet-tag.delivered {
+    background: #e2f5ec;
+    color: #0b7a56;
+}
+
+.fleet-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--log-ink);
+    color: #cdd6e8;
+    font-size: 0.78rem;
+}
+
+.fleet-stats b {
+    color: #ffffff;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.float-tag {
+    position: absolute;
+    background: #fff;
+    border: 1px solid var(--log-border);
+    border-radius: 12px;
+    padding: 9px 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    box-shadow: 0 14px 30px rgba(20, 33, 58, 0.12);
+}
+
+.tag-gps {
+    top: -18px;
+    right: 20px;
+    color: var(--log-steel);
+}
+
+.tag-eta {
+    bottom: 60px;
+    left: -22px;
+    color: var(--log-amber-dark);
+}
+
+
+/* =========================================================
+   SHARED SECTION HEADING
+========================================================= */
+
+.log-section {
+    padding: 100px 0;
+}
+
+.log-heading {
+    max-width: 720px;
+    margin: 0 auto 46px;
+    text-align: center;
+}
+
+.log-heading h2 {
+    font-size: clamp(1.7rem, 2.6vw, 2.35rem);
+    color: var(--log-heading);
+    margin: 16px 0 14px;
+    line-height: 1.25;
+}
+
+.log-heading h2 span {
+    color: var(--log-amber-dark);
+}
+
+.log-heading p {
+    color: var(--log-text);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SERVICES GRID
+========================================================= */
+
+.log-services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.log-services article {
+    background: #fff;
+    border: 1px solid var(--log-border);
+    border-radius: 16px;
+    padding: 30px 26px;
+}
+
+.log-icon {
+    font-size: 1.6rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--log-light-bg);
+    margin-bottom: 18px;
+}
+
+.log-services h3 {
+    font-size: 1.1rem;
+    color: var(--log-heading);
+    margin-bottom: 8px;
+}
+
+.log-services p {
+    color: var(--log-text);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.log-services a {
+    color: var(--log-amber-dark);
+    font-weight: 700;
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   BANNER IMAGE
+========================================================= */
+
+.log-banner {
+    width: min(var(--log-container), 92%);
+    margin: 0 auto 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(20, 33, 58, 0.14);
+}
+
+.log-banner img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* =========================================================
+   VISIBILITY & RELIABILITY
+========================================================= */
+
+.log-vis-section {
+    background: var(--log-light-bg);
+}
+
+.log-vis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.log-vis-card {
+    background: #fff;
+    border: 1px solid var(--log-border);
+    border-left: 3px solid var(--log-steel);
+    border-radius: 12px;
+    padding: 22px 22px 20px;
+}
+
+.log-vis-card h4 {
+    color: var(--log-heading);
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.log-vis-card p {
+    color: var(--log-text);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TECH STACK
+========================================================= */
+
+.log-tech-stack {
+    background: #fff;
+}
+
+.log-tech-logos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.log-tech-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 10px;
+    border: 1px solid var(--log-border);
+    border-radius: 14px;
+    background: var(--log-light-bg);
+    font-size: 0.82rem;
+    color: var(--log-text);
+}
+
+.log-tech-logo i {
+    font-size: 1.9rem;
+}
+
+
+/* =========================================================
+   PRICING
+========================================================= */
+
+.log-pricing {
+    padding: 100px 0;
+    background: var(--log-light-bg);
+}
+
+.log-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.log-pricing .pricing-card {
+    background: #fff;
+    border: 1px solid var(--log-border);
+    border-radius: 18px;
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.log-pricing .pricing-featured {
+    border-color: var(--log-steel);
+    box-shadow: 0 20px 45px rgba(60, 110, 156, 0.16);
+}
+
+.log-pricing .popular-badge {
+    position: absolute;
+    top: -13px;
+    right: 24px;
+    background: var(--log-steel);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+.log-pricing .pricing-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--log-muted);
+}
+
+.log-pricing .complexity-badge {
+    display: inline-block;
+    margin: 8px 0 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.log-pricing .complexity-low {
+    background: #e7f0f8;
+    color: var(--log-steel);
+}
+
+.log-pricing .complexity-medium {
+    background: #fdf0dd;
+    color: var(--log-amber-dark);
+}
+
+.log-pricing .complexity-high {
+    background: #fbe4e8;
+    color: #a13a4c;
+}
+
+.log-pricing h3 {
+    color: var(--log-heading);
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.pricing-plan-logo-icons {
+    display: flex;
+    gap: 8px;
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+}
+
+.pricing-plan-logo-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--log-muted);
+    margin-bottom: 12px;
+}
+
+.log-pricing .pricing-top p {
+    color: var(--log-text);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.log-pricing .price {
+    margin: 20px 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.log-pricing .price .currency {
+    font-size: 0.85rem;
+    color: var(--log-muted);
+}
+
+.log-pricing .price strong {
+    font-size: 1.6rem;
+    color: var(--log-heading);
+}
+
+.log-pricing .price-note {
+    font-size: 0.78rem;
+    color: var(--log-muted);
+}
+
+.log-pricing .custom-price strong {
+    font-size: 1.3rem;
+}
+
+.pricing-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--log-ink);
+    color: #fff;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    transition: 0.25s ease;
+}
+
+.pricing-btn:hover {
+    background: var(--log-amber-dark);
+}
+
+.pricing-divider {
+    height: 1px;
+    background: var(--log-border);
+    margin: 22px 0 16px;
+}
+
+.log-pricing h4 {
+    font-size: 0.85rem;
+    color: var(--log-heading);
+    margin-bottom: 12px;
+}
+
+.pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--log-text);
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pricing-features li span {
+    color: var(--log-amber-dark);
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.log-faq {
+    padding: 100px 0;
+    background: #fff;
+}
+
+.log-faq-list {
+    display: grid;
+    gap: 14px;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.log-faq-list details {
+    background: var(--log-light-bg);
+    border: 1px solid var(--log-border);
+    border-radius: 14px;
+    padding: 18px 22px;
+}
+
+.log-faq-list summary {
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--log-heading);
+    list-style: none;
+}
+
+.log-faq-list summary::-webkit-details-marker {
+    display: none;
+}
+
+.log-faq-list summary::after {
+    content: "+";
+    float: right;
+    color: var(--log-amber-dark);
+    font-weight: 700;
+}
+
+.log-faq-list details[open] summary::after {
+    content: "\2212";
+}
+
+.log-faq-list p {
+    margin-top: 12px;
+    color: var(--log-text);
+    line-height: 1.65;
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   WHY CODECRAFTERS (DARK)
+========================================================= */
+
+.log-dark {
+    background: var(--log-ink);
+    color: #cbd3e6;
+    padding: 100px 0;
+}
+
+.log-dark-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.log-dark h2 {
+    font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+    color: #fff;
+    line-height: 1.3;
+    margin: 16px 0 26px;
+}
+
+.log-dark h2 span {
+    color: #f0c47f;
+}
+
+.log-dark img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    display: block;
+}
+
+.dark-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #d4dae9;
+}
+
+.log-points {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.log-points h4 {
+    color: #fff;
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+}
+
+.log-points p {
+    color: #a9b1cc;
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 980px) {
+    .log-hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .log-services,
+    .log-vis-grid,
+    .log-pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .log-tech-logos {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .log-dark-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .fleet-wrap {
+        max-width: 480px;
+    }
+}
+
+@media (max-width: 640px) {
+    .log-services,
+    .log-vis-grid,
+    .log-pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .log-tech-logos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .log-trust {
+        gap: 22px;
+    }
+
+    .tag-gps,
+    .tag-eta {
+        display: none;
+    }
+}

@@ -1,0 +1,13 @@
+# CodeCrafters root rules
+# Local SEO (Sri Lanka) is injected by PHP at request time, so the .html files stay untouched.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Dynamic sitemap with hreflang
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+    # Pages served through the local SEO renderer
+    RewriteRule ^$ seo-render.php?p=index [L,QSA]
+    RewriteRule ^(index|software-development|web-design|website-maintenance|seo|mobile-app|finance|education|retail|logistics|work)\.html$ seo-render.php?p=$1 [L,QSA]
+</IfModule>
