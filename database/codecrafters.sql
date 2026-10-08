@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS codecrafters CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE codecrafters;
+-- CodeCrafters database. Select your database in phpMyAdmin first, then import this file once.
 
 CREATE TABLE IF NOT EXISTS users (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -44,6 +43,12 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     ip           VARCHAR(45) NOT NULL,
     attempted_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_ip_time (ip, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS seo_settings (
+    skey       VARCHAR(60) NOT NULL PRIMARY KEY,
+    svalue     TEXT        NOT NULL,
+    updated_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS pricing_plans (
