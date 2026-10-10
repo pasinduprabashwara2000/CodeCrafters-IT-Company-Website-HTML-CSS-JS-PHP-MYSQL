@@ -34,7 +34,7 @@ function seo_defaults(): array
 {
     return [
         'enabled'       => '1',
-        'site_url'      => 'https://codecrafters.gt.tc',
+        'site_url'      => 'https://codecrafters.com.lk',
         'business_name' => 'CodeCrafters',
         'description'   => 'CodeCrafters is a software development, web design, mobile app development and SEO company serving businesses in Sri Lanka and worldwide.',
         'telephone'     => '',
@@ -138,7 +138,7 @@ function seo_clean(array $in): array
     $url = rtrim(trim((string) ($in['site_url'] ?? '')), '/');
     $parts = parse_url($url);
     if (!filter_var($url, FILTER_VALIDATE_URL) || !in_array($parts['scheme'] ?? '', ['http', 'https'], true)) {
-        $errors[] = 'Site URL must be a full URL such as https://codecrafters.gt.tc';
+        $errors[] = 'Site URL must be a full URL such as https://codecrafters.com.lk';
         $url = '';
     }
     $s['site_url'] = $url;

@@ -53,7 +53,7 @@ admin_header('Local SEO (Sri Lanka)', 'localseo', $user);
             <label class="check wide"><input type="checkbox" name="enabled" value="1" <?= $s['enabled'] === '1' ? 'checked' : '' ?>> Enable Sri Lanka local SEO (head tags, structured data and sitemap hreflang)</label>
 
             <label>Business name<input name="business_name" value="<?= e($s['business_name']) ?>" maxlength="120" required></label>
-            <label>Site URL<input name="site_url" value="<?= e($s['site_url']) ?>" maxlength="190" required placeholder="https://codecrafters.gt.tc"></label>
+            <label>Site URL<input name="site_url" value="<?= e($s['site_url']) ?>" maxlength="190" required placeholder="https://codecrafters.com.lk"></label>
 
             <label class="wide">Description<textarea name="description" rows="2" maxlength="300"><?= e($s['description']) ?></textarea></label>
 

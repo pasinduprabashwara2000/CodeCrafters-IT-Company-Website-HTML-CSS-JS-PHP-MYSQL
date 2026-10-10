@@ -24,4 +24,17 @@ try {
     json_out(['ok' => false, 'plans' => []], 500);
 }
 
-json_out(['ok' => true, 'plans' => $plans]);
+// LKR per 1 USD, editable in the admin panel (Prices page). Falls back to 300.
+$rate = 300.0;
+try {
+    $st = db()->prepare('SELECT svalue FROM seo_settings WHERE skey = ?');
+    $st->execute(['usd_lkr_rate']);
+    $v = $st->fetchColumn();
+    if ($v !== false && is_numeric($v) && (float) $v > 0) {
+        $rate = (float) $v;
+    }
+} catch (Throwable $ex) {
+    error_log('prices.php rate: ' . $ex->getMessage());
+}
+
+json_out(['ok' => true, 'plans' => $plans, 'rate' => $rate]);

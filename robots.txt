@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://codecrafters.gt.tc/sitemap.xml
+Sitemap: https://codecrafters.com.lk/sitemap.xml

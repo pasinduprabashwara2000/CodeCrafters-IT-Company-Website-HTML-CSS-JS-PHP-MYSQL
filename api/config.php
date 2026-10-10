@@ -11,7 +11,7 @@ return [
 
     // Contact form: optional email notification for each new message ('' disables).
     'notify_email' => '',
-    'from_email'   => 'no-reply@codecrafters.gt.tc',
+    'from_email'   => 'no-reply@codecrafters.com.lk',
 
     // Max contact submissions per IP per hour.
     'contact_rate_limit' => 5,

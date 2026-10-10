@@ -49,6 +49,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirect('prices.php?cat=' . $cat);
         }
 
+        if ($action === 'save_rate') {
+            $raw = str_replace(',', '', trim((string) ($_POST['rate'] ?? '')));
+            if (!is_numeric($raw) || (float) $raw < 1 || (float) $raw > 100000) {
+                flash('Enter a valid rate between 1 and 100000 (LKR per 1 USD).', 'err');
+                redirect('prices.php?cat=' . $cat);
+            }
+            db()->exec(
+                'CREATE TABLE IF NOT EXISTS seo_settings (
+                    skey       VARCHAR(60) NOT NULL PRIMARY KEY,
+                    svalue     TEXT        NOT NULL,
+                    updated_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+            );
+            db()->prepare(
+                'INSERT INTO seo_settings (skey, svalue) VALUES (?, ?)
+                 ON DUPLICATE KEY UPDATE svalue = VALUES(svalue)'
+            )->execute(['usd_lkr_rate', (string) round((float) $raw, 2)]);
+            flash('Exchange rate saved: 1 USD = ' . round((float) $raw, 2) . ' LKR.');
+            redirect('prices.php?cat=' . $cat);
+        }
+
         if ($action === 'save_page') {
             $slug = (string) ($_POST['page'] ?? '');
             if (!isset($PAGES[$slug])) {
@@ -114,6 +135,18 @@ try {
     flash('Could not load prices. Run database/prices.sql to create the pricing_plans table.', 'err');
 }
 
+$usdLkrRate = '300';
+try {
+    $st = db()->prepare('SELECT svalue FROM seo_settings WHERE skey = ?');
+    $st->execute(['usd_lkr_rate']);
+    $v = $st->fetchColumn();
+    if ($v !== false && is_numeric($v)) {
+        $usdLkrRate = (string) (float) $v;
+    }
+} catch (Throwable $ex) {
+    // table may not exist yet; default shown
+}
+
 admin_header('Prices', 'prices', $user);
 ?>
 <div class="toolbar">
@@ -132,6 +165,19 @@ admin_header('Prices', 'prices', $user);
     </form>
 </div>
 <p class="muted">Changes go live instantly on the service pages. Untick <em>Live</em> to fall back to the price written in the page's HTML.</p>
+
+<section class="panel">
+    <div class="panel-head"><h2>Local / Foreign price toggle</h2></div>
+    <form method="post" action="prices.php?cat=<?= e($cat) ?>" class="filter-form">
+        <?= csrf_field() ?>
+        <input type="hidden" name="action" value="save_rate">
+        <label for="rate">1 USD =</label>
+        <input id="rate" name="rate" type="number" step="0.01" min="1" max="100000" value="<?= e($usdLkrRate) ?>" required style="max-width:140px">
+        <span>LKR</span>
+        <button class="btn" type="submit">Save rate</button>
+    </form>
+    <p class="muted" style="margin-top:10px">Prices are entered in USD below. Visitors who switch the toggle to <em>Local</em> see them converted to LKR (rounded to the nearest 100) using this rate.</p>
+</section>
 
 <?php if (empty($byPage[$cat])): ?>
     <section class="panel"><p class="muted">No plans for this category yet. Click <strong>Import default prices</strong> to load the current site prices.</p></section>

@@ -123,7 +123,7 @@
     <a href="#" class="social-circle" aria-label="LinkedIn">in</a>
     <a href="#" class="social-circle" aria-label="Instagram">◎</a>
     <a href="#" class="social-circle" aria-label="Facebook">f</a>
-    <a href="mailto:hello@codecrafters.com" class="social-circle" aria-label="Email">✉</a>
+    <a href="mailto:hello@codecrafters.com.lk" class="social-circle" aria-label="Email">✉</a>
 </div>
 </div>
 
