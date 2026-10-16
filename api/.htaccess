@@ -1,5 +1,5 @@
 # Block direct access to internals
-<FilesMatch "^(config|bootstrap|price-defaults|seo-lib|wa-lib)\.php$">
+<FilesMatch "^(config|bootstrap|price-defaults|plan-examples-lib|case-studies-lib|seo-lib|wa-lib|ai-lib)\.php$">
     Require all denied
 </FilesMatch>
 Options -Indexes

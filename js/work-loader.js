@@ -69,12 +69,31 @@
     }
 
     fetch("api/projects.php", { headers: { Accept: "application/json" } })
-        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (res) {
+            if (!res.ok) {
+                console.error("[work-loader] api/projects.php returned HTTP " + res.status);
+                return null;
+            }
+            return res.text().then(function (txt) {
+                try { return JSON.parse(txt); }
+                catch (e) {
+                    console.error("[work-loader] api/projects.php did not return JSON (PHP not running?):", txt.slice(0, 200));
+                    return null;
+                }
+            });
+        })
         .then(function (data) {
-            // Keep the built-in static cards when the API is unavailable or has no published projects.
-            if (!data || !data.ok || !data.projects || !data.projects.length) return;
+            if (!data) return;
+            if (!data.ok || !data.projects || !data.projects.length) {
+                console.warn("[work-loader] No published projects returned. Publish one in Admin > Projects.");
+                return;
+            }
             grid.textContent = "";
+            const section = document.getElementById("wk-projects-section");
+            if (section) section.hidden = false;
             data.projects.forEach(function (p) { grid.appendChild(card(p)); });
         })
-        .catch(function () { /* static cards stay */ });
+        .catch(function (err) {
+            console.error("[work-loader] fetch failed (opened via file:// or PHP server down?):", err);
+        });
 })();

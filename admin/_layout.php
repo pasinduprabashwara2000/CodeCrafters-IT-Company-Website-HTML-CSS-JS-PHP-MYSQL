@@ -15,13 +15,22 @@ function admin_header(string $title, string $active, array $user): void
     } catch (Throwable $ex) {
     }
     $nav = [
-        'index'    => ['index.php', 'Dashboard'],
-        'messages' => ['messages.php', 'Messages'],
-        'projects' => ['projects.php', 'Projects'],
-        'prices'   => ['prices.php', 'Prices'],
-        'localseo' => ['local-seo.php', 'Local SEO'],
-        'whatsapp' => ['whatsapp.php', 'WhatsApp'],
-        'account'  => ['account.php', 'Account'],
+        ['', [
+            'index'    => ['index.php', 'Dashboard'],
+            'messages' => ['messages.php', 'Messages'],
+        ]],
+        ['Content', [
+            'projects' => ['projects.php', 'Projects'],
+            'cases'    => ['case-studies.php', 'Case Studies'],
+            'prices'   => ['prices.php', 'Prices'],
+            'examples' => ['examples.php', 'Plan Examples'],
+        ]],
+        ['Settings', [
+            'localseo' => ['local-seo.php', 'Local SEO'],
+            'whatsapp' => ['whatsapp.php', 'WhatsApp'],
+            'chatbot'  => ['chatbot.php', 'AI Chatbot'],
+            'Security'  => ['account.php', 'Security'],
+        ]],
     ];
     ?><!DOCTYPE html>
 <html lang="en">
@@ -42,11 +51,14 @@ function admin_header(string $title, string $active, array $user): void
 <aside class="sidebar">
     <div class="brand">Code<span>Crafters</span></div>
     <nav>
-        <?php foreach ($nav as $key => [$href, $label]): ?>
-            <a href="<?= e($href) ?>" class="<?= $key === $active ? 'active' : '' ?>">
-                <?= e($label) ?>
-                <?php if ($key === 'messages' && $unread > 0): ?><em class="pill"><?= $unread ?></em><?php endif; ?>
-            </a>
+        <?php foreach ($nav as [$group, $items]): ?>
+            <?php if ($group !== ''): ?><div class="nav-label"><?= e($group) ?></div><?php endif; ?>
+            <?php foreach ($items as $key => [$href, $label]): ?>
+                <a href="<?= e($href) ?>" class="<?= $key === $active ? 'active' : '' ?>">
+                    <?= e($label) ?>
+                    <?php if ($key === 'messages' && $unread > 0): ?><em class="pill"><?= $unread ?></em><?php endif; ?>
+                </a>
+            <?php endforeach; ?>
         <?php endforeach; ?>
     </nav>
     <div class="side-foot">

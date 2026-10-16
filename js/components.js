@@ -451,8 +451,20 @@
         }
     }
 
+    function loadChatbot() {
+        if (document.querySelector('script[data-cc-chatbot]')) {
+            return;
+        }
+        const s = document.createElement("script");
+        s.src = "js/chatbot.js";
+        s.defer = true;
+        s.setAttribute("data-cc-chatbot", "1");
+        document.body.appendChild(s);
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         mountComponents();
         initContactForm();
+        loadChatbot();
     });
 })();

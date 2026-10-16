@@ -1,10 +1,12 @@
--- CodeCrafters database. Select your database in phpMyAdmin first, then import this file once.
+SET NAMES utf8mb4;
+
+-- ===================== TABLES =====================
 
 CREATE TABLE IF NOT EXISTS users (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username      VARCHAR(60)  NOT NULL UNIQUE,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(60)  NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS messages (
@@ -65,7 +67,39 @@ CREATE TABLE IF NOT EXISTS pricing_plans (
     UNIQUE KEY uq_page_pos (page_slug, position)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ===== Default prices (same values as on the site) =====
+CREATE TABLE IF NOT EXISTS plan_examples (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    page_slug    VARCHAR(60)  NOT NULL,
+    position     TINYINT UNSIGNED NOT NULL,
+    title        VARCHAR(160) NOT NULL,
+    url          VARCHAR(255) NOT NULL DEFAULT '',
+    description  VARCHAR(300) NOT NULL DEFAULT '',
+    tech         VARCHAR(255) NOT NULL DEFAULT '',
+    logo_path    VARCHAR(255) NOT NULL DEFAULT '',
+    sort_order   INT          NOT NULL DEFAULT 0,
+    is_published TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_page_pos (page_slug, position)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS case_studies (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    label        VARCHAR(120) NOT NULL,
+    title        VARCHAR(190) NOT NULL,
+    description  TEXT         NOT NULL,
+    tech         VARCHAR(255) NOT NULL DEFAULT '',
+    metrics      TEXT         NOT NULL,
+    quote        TEXT         NOT NULL,
+    quote_author VARCHAR(160) NOT NULL DEFAULT '',
+    image_src    VARCHAR(255) NOT NULL DEFAULT '',
+    sort_order   INT          NOT NULL DEFAULT 0,
+    is_published TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ===================== DEFAULT DATA =====================
+
+-- Default prices (same values as on the site; INSERT IGNORE skips rows that already exist)
 INSERT IGNORE INTO pricing_plans (page_slug, position, plan_name, currency, prefix, amount, note, is_active) VALUES
 ('education', 1, 'Course Platform', 'USD', '', '750', 'starting from', 1),
 ('education', 2, 'School Management System', 'USD', '', '1,800', 'starting from', 1),
@@ -97,48 +131,40 @@ INSERT IGNORE INTO pricing_plans (page_slug, position, plan_name, currency, pref
 ('website-maintenance', 2, 'Professional Maintenance', 'USD', '', '50', '/ month', 1),
 ('website-maintenance', 3, 'Advanced Maintenance', 'USD', '', '100', '/ month', 1);
 
--- ===== Sample data =====
+-- Example projects shown under each price card (managed in Admin > Plan Examples)
+INSERT INTO plan_examples (page_slug, position, title, url, description, tech, logo_path, sort_order)
+SELECT * FROM (
+                  SELECT 'web-design' AS page_slug, 1 AS position, 'Sheiba Arcade' AS title, 'https://sheiba.lk/' AS url, 'Retail site for computers, gaming gear and accessories.' AS description, 'HTML5, CSS, PHP, MySQL' AS tech, 'img/logos/sheiba.png' AS logo_path, 0 AS sort_order
+                  UNION ALL SELECT 'web-design', 2, 'Pulsewave', 'https://www.pulsewave.co', 'Marketing site rebuild with technical SEO.', 'React, Next.js, Node.js', 'img/logos/pulsewave.png', 1
+                  UNION ALL SELECT 'web-design', 3, 'Lumina Systems', 'https://www.luminasystems.ai', 'Self-serve knowledge base and help center.', 'Next.js, MongoDB, Node.js', 'img/logos/lumina-systems.png', 2
+                  UNION ALL SELECT 'web-design', 3, 'Zenith Corp', 'https://www.zenithcorp.io', 'Client portal redesign with faster load times.', 'React, Node.js, PostgreSQL', 'img/logos/zenith-corp.png', 3
+                  UNION ALL SELECT 'web-design', 4, 'Cubework', 'https://www.cubework.io', 'Coworking booking and payments platform.', 'Next.js, TypeScript, Stripe', 'img/logos/cubework.png', 4
+                  UNION ALL SELECT 'web-design', 4, 'Nexora', 'https://www.nexora.io', 'Conversion-focused storefront with custom checkout.', 'React, Node.js, Stripe', 'img/logos/nexora.png', 5
+                  UNION ALL SELECT 'web-design', 5, 'Zenith Corp Portal', 'https://www.zenithcorp.io', 'Custom web app built around the client''s workflow.', 'React, Node.js, PostgreSQL', 'img/logos/zenith-corp.png', 6
+              ) AS seed
+WHERE NOT EXISTS (SELECT 1 FROM plan_examples);
 
--- Sample projects (mirror the built-in cards on work.html)
-INSERT INTO projects (client, domain, url, tag, title, description, tech, thumb_style, thumb_icon, logo_path, sort_order, is_published) VALUES
-('Sheiba Arcade', 'sheiba.lk', 'https://sheiba.lk/', 'E-Commerce', 'Technology & Gaming Retail Site',
- 'A retail website for Sheiba Arcade showcasing computers, gaming gear and tech accessories with easy browsing and inquiry.',
- 'HTML5, CSS, JavaScript', 'a', '', 'img/sheiba.png', 1, 1),
-('Cubework', 'cubework.io', 'https://www.cubework.io', 'E-Commerce', 'Coworking Booking Platform',
- 'A booking and payments platform for a coworking network, with an admin dashboard for every location.',
- 'Next.js, TypeScript, Stripe', 'b', '🛒', '', 2, 1),
-('Pulsewave', 'pulsewave.co', 'https://www.pulsewave.co', 'SEO & Web', 'Marketing Site Rebuild',
- 'A full redesign and technical SEO overhaul that lifted organic traffic within the first quarter.',
- 'HTML5, CSS, JavaScript', 'c', '↗', '', 3, 1),
-('Zenith Corp', 'zenithcorp.io', 'https://www.zenithcorp.io', 'Web Platform', 'Client Portal Redesign',
- 'A refreshed client portal with faster load times, ongoing monitoring and ongoing maintenance support.',
- 'React, Node.js, PostgreSQL', 'd', '↻', '', 4, 1),
-('Lumina Systems', 'luminasystems.ai', 'https://www.luminasystems.ai', 'Web Platform', 'Support Knowledge Base',
- 'A self-serve knowledge base and help center, kept fast and up to date with a managed maintenance plan.',
- 'Next.js, MongoDB, Node.js', 'e', '▤', '', 5, 1),
-('Nexora', 'nexora.io', 'https://www.nexora.io', 'E-Commerce', 'E-Commerce Storefront',
- 'A fast, conversion-focused storefront with a custom checkout, built to scale with the product catalog.',
- 'React, Node.js, Stripe', 'f', '🛒', '', 6, 1),
-('Orbitals', 'orbitals.example', 'https://orbitals.example', 'Mobile App', 'Fitness Tracking App (draft)',
- 'Cross-platform fitness tracker with workout plans and progress charts. Unpublished sample to test drafts.',
- 'Flutter, Dart, Firebase', 'a', '◎', '', 7, 0);
+-- Projects shown on the Our Work page (managed in Admin > Projects)
+INSERT INTO projects (client, domain, url, tag, title, description, tech, thumb_style, thumb_icon, logo_path, sort_order, is_published)
+SELECT * FROM (
+                  SELECT 'Sheiba Arcade' AS client, 'sheiba.lk' AS domain, 'https://sheiba.lk/' AS url, 'E-Commerce' AS tag, 'Technology & Gaming Retail Site' AS title, 'A retail website for Sheiba Arcade showcasing computers, gaming gear and tech accessories with easy browsing and inquiry.' AS description, 'HTML5, CSS, JavaScript' AS tech, 'a' AS thumb_style, '' AS thumb_icon, 'img/sheiba.png' AS logo_path, 1 AS sort_order, 1 AS is_published
+                  UNION ALL SELECT 'Cubework', 'cubework.io', 'https://www.cubework.io', 'E-Commerce', 'Coworking Booking Platform', 'A booking and payments platform for a coworking network, with an admin dashboard for every location.', 'Next.js, TypeScript, Stripe', 'b', '🛒', '', 2, 1
+                  UNION ALL SELECT 'Pulsewave', 'pulsewave.co', 'https://www.pulsewave.co', 'SEO & Web', 'Marketing Site Rebuild', 'A full redesign and technical SEO overhaul that lifted organic traffic within the first quarter.', 'HTML5, CSS, JavaScript', 'c', '↗', '', 3, 1
+                  UNION ALL SELECT 'Zenith Corp', 'zenithcorp.io', 'https://www.zenithcorp.io', 'Web Platform', 'Client Portal Redesign', 'A refreshed client portal with faster load times, ongoing monitoring and ongoing maintenance support.', 'React, Node.js, PostgreSQL', 'd', '↻', '', 4, 1
+                  UNION ALL SELECT 'Lumina Systems', 'luminasystems.ai', 'https://www.luminasystems.ai', 'Web Platform', 'Support Knowledge Base', 'A self-serve knowledge base and help center, kept fast and up to date with a managed maintenance plan.', 'Next.js, MongoDB, Node.js', 'e', '▤', '', 5, 1
+                  UNION ALL SELECT 'Nexora', 'nexora.io', 'https://www.nexora.io', 'E-Commerce', 'E-Commerce Storefront', 'A fast, conversion-focused storefront with a custom checkout, built to scale with the product catalog.', 'React, Node.js, Stripe', 'f', '🛒', '', 6, 1
+              ) AS seed
+WHERE NOT EXISTS (SELECT 1 FROM projects);
 
--- Sample contact messages
-INSERT INTO messages (name, email, subject, message, ip, user_agent, is_read, created_at) VALUES
-('Nimal Perera', 'nimal@example.com', 'E-commerce website quote',
- 'Hi, we run a small clothing store and want an online shop with card payments. Can you share a quote and timeline?',
- '203.94.10.21', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 0, NOW() - INTERVAL 2 HOUR),
-('Sarah Fernando', 'sarah@example.org', 'Mobile app for our clinic',
- 'We need a booking app for iOS and Android. Do you build with Flutter? Happy to jump on a call this week.',
- '112.134.55.8', 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', 0, NOW() - INTERVAL 1 DAY),
-('David Silva', 'david@example.net', 'SEO audit',
- 'Our traffic dropped after a redesign. Looking for an SEO audit and fix plan.',
- '175.157.3.90', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', 1, NOW() - INTERVAL 3 DAY),
-('Ayesha Khan', 'ayesha@example.com', '',
- 'Just checking if you offer monthly website maintenance packages.',
- '124.43.17.6', 'Mozilla/5.0 (Linux; Android 14)', 1, NOW() - INTERVAL 6 DAY);
+-- Case studies shown on the Our Work page (managed in Admin > Case Studies)
+INSERT INTO case_studies (label, title, description, tech, metrics, quote, quote_author, image_src, sort_order, is_published)
+SELECT 'E-Commerce · Sheiba Arcade', 'A Storefront for a Local Computer Shop',
+       'Sheiba Arcade, a computer shop in Wadduwa selling new and used computers and accessories, needed a website to show its stock and let customers get in touch online. We built a fast PHP and MySQL site that makes browsing products easy and turns visits into inquiries.',
+       'HTML5, CSS, PHP, MySQL', 'New & used | computers and accessories\nWadduwa | Kalutara District, Sri Lanka', '', '', 'img/sheiba.png', 0, 1
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM case_studies WHERE title = 'A Storefront for a Local Computer Shop');
 
--- Optional sample admin (skip this and use admin/setup.php instead).
+-- ===================== ADMIN LOGIN =====================
 -- Username: admin   Password: ChangeMe!2026   -> CHANGE IT after first login.
--- If you insert this, admin/setup.php is locked because a user already exists.
--- INSERT INTO users (username, password_hash) VALUES ('admin', '$2y$10$658hqEjU8wMV5lmXUSJOyuZGGUEE.B2k61l1PYkBnugHgSFBwOJKC');
+INSERT INTO users (username, password_hash)
+VALUES ('admin', '$2y$10$658hqEjU8wMV5lmXUSJOyuZGGUEE.B2k61l1PYkBnugHgSFBwOJKC');

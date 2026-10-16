@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-admin_header('Account', 'account', $user);
+admin_header('Security', 'security', $user);
 ?>
 <section class="panel narrow">
     <h2>Change password</h2>

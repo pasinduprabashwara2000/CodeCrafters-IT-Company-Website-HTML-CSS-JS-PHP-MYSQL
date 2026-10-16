@@ -396,3 +396,19 @@
         gap: 28px;
     }
 }
+
+/* Case study image (managed in admin) */
+.wk-case-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.wk-cases[hidden] {
+    display: none;
+}
+
+.wk-section[hidden] {
+    display: none;
+}

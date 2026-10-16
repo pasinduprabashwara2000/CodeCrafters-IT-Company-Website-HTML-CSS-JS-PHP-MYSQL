@@ -15,4 +15,13 @@ return [
 
     // Max contact submissions per IP per hour.
     'contact_rate_limit' => 5,
+
+    // AI chatbot (Anthropic Claude API). Get a key at https://console.anthropic.com
+    // Keep this key private: never put it in JavaScript or commit it to a public repo.
+    // Alternative: leave '' and set the ANTHROPIC_API_KEY environment variable.
+    'anthropic_api_key' => '',
+
+    // Chatbot limits: messages per IP per hour, and total messages per day (0 = no daily cap).
+    'ai_rate_limit'  => 30,
+    'ai_daily_limit' => 500,
 ];
